@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>David Joloko — Data Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0e0f11;
+      --surface: #141618;
+      --border:  #242628;
+      --accent:  #c8a96e;
+      --muted:   #555860;
+      --sub:     #7a7d84;
+      --text:    #b8bcc4;
+      --heading: #e8eaed;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    /* NAV */
+    nav {
+      padding: 2.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--heading);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    #hero {
+      padding: 7rem 0 6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: rise 0.7s 0.1s ease forwards;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 6vw, 5.8rem);
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--heading);
+      letter-spacing: -0.01em;
+      max-width: 700px;
+      opacity: 0;
+      animation: rise 0.7s 0.2s ease forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+    .hero-body {
+      margin-top: 2.5rem;
+      max-width: 460px;
+      color: var(--sub);
+      font-size: 0.82rem;
+      line-height: 2;
+      opacity: 0;
+      animation: rise 0.7s 0.35s ease forwards;
+    }
+    .hero-meta {
+      margin-top: 3.5rem;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      opacity: 0;
+      animation: rise 0.7s 0.5s ease forwards;
+    }
+    .hero-meta a {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--heading);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .hero-meta a:hover { color: var(--accent); border-color: var(--accent); }
+    .hero-divider { width: 1px; height: 24px; background: var(--border); }
+
+    /* SECTION LABEL */
+    .s-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 3.5rem 0 2rem;
+    }
+
+    /* PROJECTS */
+    #projects { border-bottom: 1px solid var(--border); padding-bottom: 1px; }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--border);
+    }
+    .project-card {
+      padding: 3rem 0;
+      position: relative;
+      cursor: default;
+    }
+    .project-card:first-child {
+      padding-right: 3rem;
+      border-right: 1px solid var(--border);
+    }
+    .project-card:last-child { padding-left: 3rem; }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.4s ease;
+    }
+    .project-card:hover::after { width: 100%; }
+
+    .p-index {
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      margin-bottom: 1.8rem;
+    }
+    .p-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--heading);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .p-desc {
+      font-size: 0.78rem;
+      color: var(--sub);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+      max-width: 320px;
+    }
+    .p-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.8rem; }
+    .tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 1px;
+    }
+    .p-link {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.2s;
+    }
+    .p-link:hover { gap: 0.9rem; }
+
+    /* ABOUT */
+    #about {
+      padding: 5rem 0;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 5rem;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .about-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 0.2rem;
+    }
+    .about-right h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: var(--heading);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .about-right p {
+      font-size: 0.82rem;
+      color: var(--sub);
+      line-height: 2;
+      max-width: 500px;
+      margin-bottom: 1rem;
+    }
+    .tool-list { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tool {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 1px;
+    }
+
+    /* CONTACT */
+    #contact { padding: 5rem 0 4rem; }
+    #contact .inner {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 0.2rem;
+    }
+    .contact-right h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: var(--heading);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .contact-right p {
+      font-size: 0.82rem;
+      color: var(--sub);
+      line-height: 2;
+      max-width: 420px;
+      margin-bottom: 2rem;
+    }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .c-link {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--heading);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.65rem 1.5rem;
+      border-radius: 1px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .c-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ANIMATION */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .container { padding: 0 1.5rem; }
+      nav { padding: 1.8rem 0; }
+      .nav-links { gap: 1.5rem; }
+      #hero { padding: 5rem 0 4rem; }
+      .project-row { grid-template-columns: 1fr; }
+      .project-card:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); }
+      .project-card:last-child { padding-left: 0; }
+      #about, #contact .inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .hero-meta { gap: 1.5rem; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">David Joloko</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <p class="hero-eyebrow">Data Analyst · Visualization</p>
+    <h1 class="hero-title">Data made<br><em>visible.</em></h1>
+    <p class="hero-body">
+      A collection of data visualization and analysis work — turning numbers into clear, honest, and compelling visual stories.
+    </p>
+    <div class="hero-meta">
+      <a href="#projects">View Projects</a>
+      <div class="hero-divider"></div>
+      <a href="https://github.com/davidjoloko" target="_blank">GitHub ↗</a>
+      <div class="hero-divider"></div>
+      <a href="mailto:you@email.com">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="s-label reveal">Selected Work</p>
+
+    <div class="project-row">
+      <div class="project-card reveal">
+        <div class="p-index">01 / Visualization</div>
+        <h3 class="p-name">Project 1</h3>
+        <p class="p-desc">A short description of what this project explores, the dataset used, and the key insight it reveals.</p>
+        <div class="p-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Matplotlib</span>
+        </div>
+        <a href="#" class="p-link">View Project →</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="p-index">02 / Visualization</div>
+        <h3 class="p-name">Project 2</h3>
+        <p class="p-desc">A short description of what this project explores, the dataset used, and the key insight it reveals.</p>
+        <div class="p-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Seaborn</span>
+        </div>
+        <a href="#" class="p-link">View Project →</a>
+      </div>
+    </div>
+
+    <div class="project-row">
+      <div class="project-card reveal">
+        <div class="p-index">03 / Visualization</div>
+        <h3 class="p-name">Project 3</h3>
+        <p class="p-desc">A short description of what this project explores, the dataset used, and the key insight it reveals.</p>
+        <div class="p-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Plotly</span>
+        </div>
+        <a href="#" class="p-link">View Project →</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="p-index">04 / Visualization</div>
+        <h3 class="p-name">Project 4</h3>
+        <p class="p-desc">A short description of what this project explores, the dataset used, and the key insight it reveals.</p>
+        <div class="p-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Pandas</span>
+        </div>
+        <a href="#" class="p-link">View Project →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <div class="about-label">About</div>
+    <div class="about-right">
+      <h2>Analyst &amp; storyteller.</h2>
+      <p>I'm David Joloko — a data analyst focused on visualization and exploratory analysis. I care about presenting data in ways that are accurate, clear, and worth looking at.</p>
+      <p>These projects were built as part of my visualization coursework, with a focus on communicating patterns and insights through thoughtful chart design.</p>
+      <div class="tool-list">
+        <span class="tool">Python</span>
+        <span class="tool">Pandas</span>
+        <span class="tool">Matplotlib</span>
+        <span class="tool">Seaborn</span>
+        <span class="tool">Plotly</span>
+        <span class="tool">SQL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="inner reveal">
+      <div class="contact-label">Contact</div>
+      <div class="contact-right">
+        <h2>Let's connect.</h2>
+        <p>Open to opportunities, collaborations, and conversations about data. Feel free to reach out.</p>
+        <div class="contact-links">
+          <a href="mailto:you@email.com" class="c-link">Email</a>
+          <a href="https://linkedin.com/in/davidjoloko" class="c-link" target="_blank">LinkedIn ↗</a>
+          <a href="https://github.com/davidjoloko" class="c-link" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 David Joloko</span>
+    <span>davidjoloko.github.io</span>
+  </footer>
+
+</div>
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
